@@ -21,20 +21,19 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
   const [cards, setCards] = useState([]);
 
- useEffect(() => {
-   const fetchData = async () => {
-     try {
-       const profileInfo = await api.getUserInfo();
-       setCurrentUser(profileInfo);
-       const data = await api.getInitialCards();
-       setCards(data);
-     } catch (err) {
-       console.log(err);
-     }
-   };
-   fetchData();
- }, []);
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profileInfo = await api.getUserInfo();
+        setCurrentUser(profileInfo);
+        const data = await api.getInitialCards();
+        setCards(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleCardLike = async (card) => {
     try {
