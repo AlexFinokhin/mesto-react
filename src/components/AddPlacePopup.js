@@ -42,10 +42,10 @@ function AddPlacePopup({ onClose, onAddPlace, isOpen, onLoading }) {
           placeholder="Название"
           minLength="2"
           maxLength="30"
-          autoFocus
-          required
           value={placeName}
           onChange={handlePlaceNameChange}
+          autoFocus
+          required
         />
         <span className="popup__input-error" id="name-error"></span>
       </div>
@@ -56,9 +56,9 @@ function AddPlacePopup({ onClose, onAddPlace, isOpen, onLoading }) {
           type="url"
           name="link"
           placeholder="Ссылка на картинку"
-          required
           value={placeImage}
           onChange={handlePlaceLinkChange}
+          required
         />
         <span className="popup__input-error" id="link-error"></span>
       </div>
