@@ -19,7 +19,6 @@ function PopupWithForm({
           className="popup__form popup__form_profile"
           name={name}
           onSubmit={onSubmit}
-          noValidate
         >
           <h2 className="popup__title">{title}</h2>
           {children}
@@ -36,7 +35,7 @@ function PopupWithForm({
           type="button"
           title="Закрыть"
           onClick={onClose}
-        ></button>
+        />
       </div>
     </div>
   );

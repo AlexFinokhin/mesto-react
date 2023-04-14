@@ -21,27 +21,20 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
   const [cards, setCards] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const profileInfo = await api.getUserInfo();
-        setCurrentUser(profileInfo);
-        const data = await api.getInitialCards();
-        const formattedCards = data.map((card) => ({
-          _id: card._id,
-          name: card.name,
-          link: card.link,
-          likes: card.likes,
-          owner: card.owner,
-        }));
-        setCards(formattedCards);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+ useEffect(() => {
+   const fetchData = async () => {
+     try {
+       const profileInfo = await api.getUserInfo();
+       setCurrentUser(profileInfo);
+       const data = await api.getInitialCards();
+       setCards(data);
+     } catch (err) {
+       console.log(err);
+     }
+   };
+   fetchData();
+ }, []);
 
-    fetchData();
-  }, []);
 
   const handleCardLike = async (card) => {
     try {
@@ -157,7 +150,7 @@ function App() {
             isOpen={!!cardToDeleteConfirmation}
             onClose={closeAllPopups}
             onLoading={isLoading}
-          ></PopupWithSubmit>
+          />
           <ImagePopup onClose={closeAllPopups} card={selectedCard} />
         </div>
       </div>

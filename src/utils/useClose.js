@@ -15,11 +15,11 @@ export default function useClose(isOpen, handleClose) {
     };
 
     document.addEventListener("keydown", handleESC);
-    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
       document.removeEventListener("keydown", handleESC);
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen, handleClose]);
 }
