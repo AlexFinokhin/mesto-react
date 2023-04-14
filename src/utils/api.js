@@ -1,73 +1,80 @@
 export class Api {
   constructor(options) {
-    this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+    this.baseUrl = options.baseUrl;
+    this.headers = options.headers;
   }
 
-  async _fetch(path, options = {}) {
-    const res = await fetch(`${this._baseUrl}${path}`, {
-      ...options,
+  async fetch(path, options = {}) {
+    const res = await fetch(`${this.baseUrl}${path}`, {
       headers: {
-        ...this._headers,
+        ...this.headers,
         ...options.headers,
       },
+      ...options,
     });
-    if (!res.ok) {
-      throw new Error(`API error: ${res.status}`);
+    return this.checkResponse(res);
+  }
+
+  async checkResponse(res) {
+    const data = await res.json();
+    if (res.ok) {
+      return data;
+    } else {
+      const error = new Error(`API error: ${data.message || res.statusText}`);
+      throw error;
     }
-    return res.json();
   }
 
   getUserInfo() {
-    return this._fetch("/users/me");
+    return this.fetch("/users/me");
   }
 
   getInitialCards() {
-    return this._fetch("/cards");
+    return this.fetch("/cards");
   }
 
   setUserInfo(data) {
-    return this._fetch("/users/me", {
+    const options = {
       method: "PATCH",
       body: JSON.stringify({
         name: data.name,
         about: data.about,
       }),
-    });
+    };
+    return this.fetch("/users/me", options);
   }
 
   addCard(data) {
-    return this._fetch("/cards", {
+    const options = {
       method: "POST",
       body: JSON.stringify(data),
-    });
+    };
+    return this.fetch("/cards", options);
   }
 
   deleteCard(cardId) {
-    return this._fetch(`/cards/${cardId}`, {
+    const options = {
       method: "DELETE",
-    });
+    };
+    return this.fetch(`/cards/${cardId}`, options);
   }
 
-  putLike(cardId) {
-    return this._fetch(`/cards/${cardId}/likes`, {
-      method: "PUT",
-    });
-  }
-
-  deleteLike(cardId) {
-    return this._fetch(`/cards/${cardId}/likes`, {
-      method: "DELETE",
-    });
+  setLike(cardId, isLiked) {
+    const method = isLiked ? "PUT" : "DELETE";
+    const options = {
+      method: method,
+    };
+    return this.fetch(`/cards/${cardId}/likes`, options);
   }
 
   setUserAvatar(data) {
-    return this._fetch("/users/me/avatar", {
+    const options = {
       method: "PATCH",
       body: JSON.stringify({
         avatar: data.avatar,
       }),
-    });
+    };
+    return this.fetch("/users/me/avatar", options);
   }
 }
 

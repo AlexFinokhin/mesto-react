@@ -1,4 +1,7 @@
+import useClose from "../utils/useClose";
+
 function ImagePopup({ card, onClose }) {
+  useClose(card.link, onClose);
   return (
     <div className={`popup popup_viewer ${card.link ? "popup_opened" : ""}`}>
       <div className="popup__content">
